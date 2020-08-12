@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import Formsy, { addValidationRule } from '../src';
+import Formsy, { addValidationRule, formValidateCounter, resetFormValidateCounter } from '../src';
 import TestInput from '../__test_utils__/TestInput';
 import TestInputHoc from '../__test_utils__/TestInputHoc';
 import immediate from '../__test_utils__/immediate';
@@ -761,5 +761,29 @@ describe('form valid state', () => {
         expect(form.state.isValid).toEqual(true);
       });
     });
+  });
+
+  it('should take less than a thousand years to mount a thousand things', () => {
+    resetFormValidateCounter();
+
+    class TestForm extends React.Component {
+      renderInputs() {
+        const inputs = [];
+        for (let i = 0; i < 1000; i++) {
+          inputs.push(<TestInput key={`foo[${i}]`} name={`foo[${i}]`} />);
+        }
+        return inputs;
+      }
+
+      render() {
+        return <Formsy>{this.renderInputs()}</Formsy>;
+      }
+    }
+
+    const form = mount(<TestForm />);
+
+    console.log(`The form validated ${formValidateCounter} times while mounting.`);
+
+    // This test doesn't assert anything. You'll know if it's not passing.
   });
 });

@@ -2098,6 +2098,8 @@ function (_React$Component) {
         _this.inputs.push(component);
       }
 
+      console.log('attached teh guy');
+
       _this.validate(component);
     };
 

@@ -10,6 +10,12 @@ import { IData, IModel, InputComponent, IResetModel, IUpdateInputsWithError, Val
 
 type FormHTMLAttributesCleaned = Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit'>;
 
+export let formValidateCounter = 0;
+
+export function resetFormValidateCounter() {
+  formValidateCounter = 0;
+}
+
 /* eslint-disable react/no-unused-state, react/default-props-match-prop-types */
 export interface FormsyProps extends FormHTMLAttributesCleaned {
   disabled: boolean;
@@ -286,9 +292,16 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
   };
 
   // Checks validation on current value or a passed value
-  public runValidation = (component: InputComponent, value = component.state.value) => {
+  public runValidation = (component: InputComponent, value = undefined, currentValues = undefined) => {
+    if (value === undefined) {
+      value = component.state.value;
+    }
+
+    if (!currentValues) {
+      currentValues = this.getCurrentValues();
+    }
+
     const { validationErrors } = this.props;
-    const currentValues = this.getCurrentValues();
     const validationResults = utils.runRules(value, currentValues, component.validations, validationRules);
     const requiredResults = utils.runRules(value, currentValues, component.requiredValidations, validationRules);
     const isRequired = Object.keys(component.requiredValidations).length ? !!requiredResults.success.length : false;
@@ -437,6 +450,8 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
   // Validate the form by going through all child input components
   // and check their state
   public validateForm = () => {
+    formValidateCounter++;
+
     // We need a callback as we are validating all inputs again. This will
     // run when the last component has set its state
     const onValidationComplete = () => {
@@ -450,10 +465,12 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
       });
     };
 
+    const currentValues = this.getCurrentValues();
+
     // Run validation again in case affected by other inputs. The
     // last component validated will run the onValidationComplete callback
     this.inputs.forEach((component, index) => {
-      const validation = this.runValidation(component);
+      const validation = this.runValidation(component, undefined, currentValues);
       if (validation.isValid && component.state.externalError) {
         validation.isValid = false;
       }
