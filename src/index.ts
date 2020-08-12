@@ -183,6 +183,13 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
 
   public getCurrentValues = () => {
     getValuesCounter++;
+
+    const result = {};
+    for (const input of this.inputs) {
+      result[input.props.name] = input.state.value;
+    }
+    return result;
+
     return this.inputs.reduce((data, component) => {
       const dataCopy = typeof component.state.value === 'object' ? Object.assign({}, data) : data; // avoid param reassignment
       dataCopy[component.props.name] = component.state.value;
