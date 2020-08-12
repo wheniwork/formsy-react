@@ -2193,19 +2193,8 @@ function (_React$Component) {
         onChange(_this.getModel(), _this.isChanged());
       }
 
-      var validation = _this.runValidation(component); // Run through the validations, split them up and call
-      // the validator IF there is a value or it is required
-
-
-      component.setState({
-        externalError: null,
-        isRequired: validation.isRequired,
-        isValid: validation.isValid,
-        validationError: validation.error
-      }, function () {
-        return _this.setState({
-          needsFormValidate: true
-        });
+      _this.setState({
+        needsFormValidate: true
       });
     };
 

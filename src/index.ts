@@ -447,18 +447,7 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
       onChange(this.getModel(), this.isChanged());
     }
 
-    const validation = this.runValidation(component);
-    // Run through the validations, split them up and call
-    // the validator IF there is a value or it is required
-    component.setState(
-      {
-        externalError: null,
-        isRequired: validation.isRequired,
-        isValid: validation.isValid,
-        validationError: validation.error,
-      },
-      () => this.setState({ needsFormValidate: true }),
-    );
+    this.setState({ needsFormValidate: true });
   };
 
   // Validate the form by going through all child input components

@@ -786,7 +786,7 @@ describe('form valid state', () => {
       }
     }
 
-    const form = mount(<TestForm />);
+    mount(<TestForm />);
 
     console.log(`The form validated ${formValidateCounter} times while mounting.`);
     console.log(`Individual elements validated ${componentValidateCounter} times while mounting.`);

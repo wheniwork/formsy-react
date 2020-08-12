@@ -71,6 +71,9 @@ describe('Element', () => {
       componentDidMount() {
         errorMessage = this.props.errorMessage;
       },
+      componentDidUpdate() {
+        errorMessage = this.props.errorMessage;
+      },
     });
     mount(
       <Formsy>
@@ -121,10 +124,13 @@ describe('Element', () => {
   });
 
   it('should return true or false when calling showRequired() depending on input being empty and required is passed, or not', () => {
-    const showRequireds = [];
+    const showRequireds = {};
     const Input = InputFactory({
       componentDidMount() {
-        showRequireds.push(this.props.showRequired);
+        showRequireds[this.props.name] = this.props.showRequired;
+      },
+      componentDidUpdate() {
+        showRequireds[this.props.name] = this.props.showRequired;
       },
     });
     mount(
@@ -135,9 +141,9 @@ describe('Element', () => {
       </Formsy>,
     );
 
-    expect(showRequireds[0]).toEqual(false);
-    expect(showRequireds[1]).toEqual(true);
-    expect(showRequireds[2]).toEqual(false);
+    expect(showRequireds['A']).toEqual(false);
+    expect(showRequireds['B']).toEqual(true);
+    expect(showRequireds['C']).toEqual(false);
   });
 
   it('should return true or false when calling isPristine() depending on input has been "touched" or not', () => {
