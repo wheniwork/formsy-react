@@ -4,6 +4,8 @@ import validationRules from './validationRules';
 import Wrapper, { propTypes } from './Wrapper';
 import { IModel, InputComponent, IResetModel, IUpdateInputsWithError, ValidationFunction } from './interfaces';
 declare type FormHTMLAttributesCleaned = Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit'>;
+export declare let formValidateCounter: number;
+export declare function resetFormValidateCounter(): void;
 export interface FormsyProps extends FormHTMLAttributesCleaned {
     disabled: boolean;
     getErrorMessage: any;
@@ -101,7 +103,7 @@ declare class Formsy extends React.Component<FormsyProps, FormsyState> {
     reset: (data?: any) => void;
     resetInternal: (event: any) => void;
     resetModel: IResetModel;
-    runValidation: (component: InputComponent, value?: any) => {
+    runValidation: (component: InputComponent, value?: any, currentValues?: any) => {
         isRequired: boolean;
         isValid: boolean;
         error: any;

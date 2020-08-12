@@ -1856,6 +1856,12 @@ function Wrapper (WrappedComponent) {
   }, _class.propTypes = propTypes$1, _temp;
 }
 
+var formValidateCounter = 0;
+function resetFormValidateCounter() {
+  formValidateCounter = 0;
+}
+/* eslint-disable react/no-unused-state, react/default-props-match-prop-types */
+
 var Formsy =
 /*#__PURE__*/
 function (_React$Component) {
@@ -2044,11 +2050,18 @@ function (_React$Component) {
     };
 
     _this.runValidation = function (component) {
-      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : component.state.value;
+      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
+      var currentValues = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+
+      if (value === undefined) {
+        value = component.state.value;
+      }
+
+      if (!currentValues) {
+        currentValues = _this.getCurrentValues();
+      }
+
       var validationErrors = _this.props.validationErrors;
-
-      var currentValues = _this.getCurrentValues();
-
       var validationResults = utils.runRules(value, currentValues, component.validations, validations);
       var requiredResults = utils.runRules(value, currentValues, component.requiredValidations, validations);
       var isRequired = Object.keys(component.requiredValidations).length ? !!requiredResults.success.length : false;
@@ -2091,8 +2104,6 @@ function (_React$Component) {
       if (_this.inputs.indexOf(component) === -1) {
         _this.inputs.push(component);
       }
-
-      console.log('attached teh guy');
 
       _this.validate(component);
     };
@@ -2183,8 +2194,9 @@ function (_React$Component) {
     };
 
     _this.validateForm = function () {
-      // We need a callback as we are validating all inputs again. This will
+      formValidateCounter++; // We need a callback as we are validating all inputs again. This will
       // run when the last component has set its state
+
       var onValidationComplete = function onValidationComplete() {
         var allIsValid = _this.inputs.every(function (component) {
           return component.state.isValid;
@@ -2196,12 +2208,14 @@ function (_React$Component) {
         _this.setState({
           canChange: true
         });
-      }; // Run validation again in case affected by other inputs. The
+      };
+
+      var currentValues = _this.getCurrentValues(); // Run validation again in case affected by other inputs. The
       // last component validated will run the onValidationComplete callback
 
 
       _this.inputs.forEach(function (component, index) {
-        var validation = _this.runValidation(component);
+        var validation = _this.runValidation(component, undefined, currentValues);
 
         if (validation.isValid && component.state.externalError) {
           validation.isValid = false;
@@ -2343,5 +2357,5 @@ var addValidationRule = function addValidationRule(name, func) {
 };
 
 export default Formsy;
-export { addValidationRule, propTypes$1 as propTypes, validations as validationRules, Wrapper as withFormsy };
+export { addValidationRule, formValidateCounter, propTypes$1 as propTypes, resetFormValidateCounter, validations as validationRules, Wrapper as withFormsy };
 //# sourceMappingURL=formsy-react.esm.js.map
