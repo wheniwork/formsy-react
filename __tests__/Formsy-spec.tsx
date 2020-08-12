@@ -2,7 +2,13 @@ import React from 'react';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import Formsy, { addValidationRule, formValidateCounter, getValuesCounter, resetCounters } from '../src';
+import Formsy, {
+  addValidationRule,
+  formValidateCounter,
+  componentValidateCounter,
+  getValuesCounter,
+  resetCounters,
+} from '../src';
 import TestInput from '../__test_utils__/TestInput';
 import TestInputHoc from '../__test_utils__/TestInputHoc';
 import immediate from '../__test_utils__/immediate';
@@ -783,6 +789,7 @@ describe('form valid state', () => {
     const form = mount(<TestForm />);
 
     console.log(`The form validated ${formValidateCounter} times while mounting.`);
+    console.log(`Individual elements validated ${componentValidateCounter} times while mounting.`);
     console.log(`The form's current values were fetched ${getValuesCounter} times while mounting.`);
 
     // This test doesn't assert anything. You'll know if it's not passing.

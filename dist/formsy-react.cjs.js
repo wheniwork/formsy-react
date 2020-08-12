@@ -1863,9 +1863,11 @@ function Wrapper (WrappedComponent) {
 }
 
 exports.formValidateCounter = 0;
+exports.componentValidateCounter = 0;
 exports.getValuesCounter = 0;
 function resetCounters() {
   exports.formValidateCounter = 0;
+  exports.componentValidateCounter = 0;
   exports.getValuesCounter = 0;
 }
 /* eslint-disable react/no-unused-state, react/default-props-match-prop-types */
@@ -1922,8 +1924,12 @@ function (_React$Component) {
         return component.props.name;
       });
 
-      if (_this.prevInputNames && utils.arraysDiffer(_this.prevInputNames, newInputNames)) {
+      if (_this.state.needsFormValidate || _this.prevInputNames && utils.arraysDiffer(_this.prevInputNames, newInputNames)) {
         _this.validateForm();
+
+        _this.setState({
+          needsFormValidate: false
+        });
       }
     };
 
@@ -2070,6 +2076,7 @@ function (_React$Component) {
         currentValues = _this.getCurrentValues();
       }
 
+      exports.componentValidateCounter++;
       var validationErrors = _this.props.validationErrors;
       var validationResults = utils.runRules(value, currentValues, component.validations, validations);
       var requiredResults = utils.runRules(value, currentValues, component.requiredValidations, validations);
@@ -2124,7 +2131,9 @@ function (_React$Component) {
         _this.inputs = _this.inputs.slice(0, componentPos).concat(_this.inputs.slice(componentPos + 1));
       }
 
-      _this.validateForm();
+      _this.setState({
+        needsFormValidate: true
+      });
     };
 
     _this.isChanged = function () {
@@ -2199,7 +2208,11 @@ function (_React$Component) {
         isRequired: validation.isRequired,
         isValid: validation.isValid,
         validationError: validation.error
-      }, _this.validateForm);
+      }, function () {
+        return _this.setState({
+          needsFormValidate: true
+        });
+      });
     };
 
     _this.validateForm = function () {
@@ -2288,7 +2301,8 @@ function (_React$Component) {
     _this.state = {
       canChange: false,
       isSubmitting: false,
-      isValid: true
+      isValid: true,
+      needsFormValidate: false
     };
     _this.inputs = [];
     _this.emptyArray = [];

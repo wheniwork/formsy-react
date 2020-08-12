@@ -11,10 +11,12 @@ import { IData, IModel, InputComponent, IResetModel, IUpdateInputsWithError, Val
 type FormHTMLAttributesCleaned = Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit'>;
 
 export let formValidateCounter = 0;
+export let componentValidateCounter = 0;
 export let getValuesCounter = 0;
 
 export function resetCounters() {
   formValidateCounter = 0;
+  componentValidateCounter = 0;
   getValuesCounter = 0;
 }
 
@@ -55,6 +57,7 @@ export interface FormsyState {
   isPristine?: boolean;
   isSubmitting: boolean;
   isValid: boolean;
+  needsFormValidate: boolean;
 }
 
 class Formsy extends React.Component<FormsyProps, FormsyState> {
@@ -135,6 +138,7 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
       canChange: false,
       isSubmitting: false,
       isValid: true,
+      needsFormValidate: false,
     };
     this.inputs = [];
     this.emptyArray = [];
@@ -168,8 +172,12 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
     }
 
     const newInputNames = this.inputs.map(component => component.props.name);
-    if (this.prevInputNames && utils.arraysDiffer(this.prevInputNames, newInputNames)) {
+    if (
+      this.state.needsFormValidate ||
+      (this.prevInputNames && utils.arraysDiffer(this.prevInputNames, newInputNames))
+    ) {
       this.validateForm();
+      this.setState({ needsFormValidate: false });
     }
   };
 
@@ -305,6 +313,8 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
       currentValues = this.getCurrentValues();
     }
 
+    componentValidateCounter++;
+
     const { validationErrors } = this.props;
     const validationResults = utils.runRules(value, currentValues, component.validations, validationRules);
     const requiredResults = utils.runRules(value, currentValues, component.requiredValidations, validationRules);
@@ -368,7 +378,7 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
       this.inputs = this.inputs.slice(0, componentPos).concat(this.inputs.slice(componentPos + 1));
     }
 
-    this.validateForm();
+    this.setState({ needsFormValidate: true });
   };
 
   // Checks if the values have changed from their initial value
@@ -447,7 +457,7 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
         isValid: validation.isValid,
         validationError: validation.error,
       },
-      this.validateForm,
+      () => this.setState({ needsFormValidate: true }),
     );
   };
 

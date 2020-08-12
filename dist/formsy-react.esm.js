@@ -1857,9 +1857,11 @@ function Wrapper (WrappedComponent) {
 }
 
 var formValidateCounter = 0;
+var componentValidateCounter = 0;
 var getValuesCounter = 0;
 function resetCounters() {
   formValidateCounter = 0;
+  componentValidateCounter = 0;
   getValuesCounter = 0;
 }
 /* eslint-disable react/no-unused-state, react/default-props-match-prop-types */
@@ -1916,8 +1918,12 @@ function (_React$Component) {
         return component.props.name;
       });
 
-      if (_this.prevInputNames && utils.arraysDiffer(_this.prevInputNames, newInputNames)) {
+      if (_this.state.needsFormValidate || _this.prevInputNames && utils.arraysDiffer(_this.prevInputNames, newInputNames)) {
         _this.validateForm();
+
+        _this.setState({
+          needsFormValidate: false
+        });
       }
     };
 
@@ -2064,6 +2070,7 @@ function (_React$Component) {
         currentValues = _this.getCurrentValues();
       }
 
+      componentValidateCounter++;
       var validationErrors = _this.props.validationErrors;
       var validationResults = utils.runRules(value, currentValues, component.validations, validations);
       var requiredResults = utils.runRules(value, currentValues, component.requiredValidations, validations);
@@ -2118,7 +2125,9 @@ function (_React$Component) {
         _this.inputs = _this.inputs.slice(0, componentPos).concat(_this.inputs.slice(componentPos + 1));
       }
 
-      _this.validateForm();
+      _this.setState({
+        needsFormValidate: true
+      });
     };
 
     _this.isChanged = function () {
@@ -2193,7 +2202,11 @@ function (_React$Component) {
         isRequired: validation.isRequired,
         isValid: validation.isValid,
         validationError: validation.error
-      }, _this.validateForm);
+      }, function () {
+        return _this.setState({
+          needsFormValidate: true
+        });
+      });
     };
 
     _this.validateForm = function () {
@@ -2282,7 +2295,8 @@ function (_React$Component) {
     _this.state = {
       canChange: false,
       isSubmitting: false,
-      isValid: true
+      isValid: true,
+      needsFormValidate: false
     };
     _this.inputs = [];
     _this.emptyArray = [];
@@ -2360,5 +2374,5 @@ var addValidationRule = function addValidationRule(name, func) {
 };
 
 export default Formsy;
-export { addValidationRule, formValidateCounter, getValuesCounter, propTypes$1 as propTypes, resetCounters, validations as validationRules, Wrapper as withFormsy };
+export { addValidationRule, componentValidateCounter, formValidateCounter, getValuesCounter, propTypes$1 as propTypes, resetCounters, validations as validationRules, Wrapper as withFormsy };
 //# sourceMappingURL=formsy-react.esm.js.map
