@@ -11,9 +11,11 @@ import { IData, IModel, InputComponent, IResetModel, IUpdateInputsWithError, Val
 type FormHTMLAttributesCleaned = Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit'>;
 
 export let formValidateCounter = 0;
+export let getValuesCounter = 0;
 
-export function resetFormValidateCounter() {
+export function resetCounters() {
   formValidateCounter = 0;
+  getValuesCounter = 0;
 }
 
 /* eslint-disable react/no-unused-state, react/default-props-match-prop-types */
@@ -171,12 +173,14 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
     }
   };
 
-  public getCurrentValues = () =>
-    this.inputs.reduce((data, component) => {
+  public getCurrentValues = () => {
+    getValuesCounter++;
+    return this.inputs.reduce((data, component) => {
       const dataCopy = typeof component.state.value === 'object' ? Object.assign({}, data) : data; // avoid param reassignment
       dataCopy[component.props.name] = component.state.value;
       return dataCopy;
     }, {});
+  };
 
   public getModel = () => {
     const currentValues = this.getCurrentValues();

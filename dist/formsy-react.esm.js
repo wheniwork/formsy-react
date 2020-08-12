@@ -1857,8 +1857,10 @@ function Wrapper (WrappedComponent) {
 }
 
 var formValidateCounter = 0;
-function resetFormValidateCounter() {
+var getValuesCounter = 0;
+function resetCounters() {
   formValidateCounter = 0;
+  getValuesCounter = 0;
 }
 /* eslint-disable react/no-unused-state, react/default-props-match-prop-types */
 
@@ -1920,6 +1922,7 @@ function (_React$Component) {
     };
 
     _this.getCurrentValues = function () {
+      getValuesCounter++;
       return _this.inputs.reduce(function (data, component) {
         var dataCopy = _typeof(component.state.value) === 'object' ? Object.assign({}, data) : data; // avoid param reassignment
 
@@ -2357,5 +2360,5 @@ var addValidationRule = function addValidationRule(name, func) {
 };
 
 export default Formsy;
-export { addValidationRule, formValidateCounter, propTypes$1 as propTypes, resetFormValidateCounter, validations as validationRules, Wrapper as withFormsy };
+export { addValidationRule, formValidateCounter, getValuesCounter, propTypes$1 as propTypes, resetCounters, validations as validationRules, Wrapper as withFormsy };
 //# sourceMappingURL=formsy-react.esm.js.map
