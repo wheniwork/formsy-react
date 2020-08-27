@@ -1766,8 +1766,8 @@ function Wrapper (WrappedComponent) {
       } // We have to make sure the validate method is kept when new props are added
 
     }, {
-      key: "componentWillReceiveProps",
-      value: function componentWillReceiveProps(nextProps) {
+      key: "UNSAFE_componentWillReceiveProps",
+      value: function UNSAFE_componentWillReceiveProps(nextProps) {
         this.setValidations(nextProps.validations, nextProps.required);
       }
     }, {
@@ -1899,7 +1899,7 @@ function (_React$Component) {
       _this.validateForm();
     };
 
-    _this.componentWillUpdate = function () {
+    _this.UNSAFE_componentWillUpdate = function () {
       // Keep a reference to input names before form updates,
       // to check if inputs has changed after render
       _this.prevInputNames = _this.inputs.map(function (component) {

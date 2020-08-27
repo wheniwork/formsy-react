@@ -93,7 +93,7 @@ declare class Formsy extends React.Component<FormsyProps, FormsyState> {
         };
     };
     componentDidMount: () => void;
-    componentWillUpdate: () => void;
+    UNSAFE_componentWillUpdate: () => void;
     componentDidUpdate: () => void;
     getCurrentValues: () => any;
     getModel: () => any;

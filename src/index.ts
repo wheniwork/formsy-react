@@ -158,7 +158,7 @@ class Formsy extends React.Component<FormsyProps, FormsyState> {
     this.validateForm();
   };
 
-  public componentWillUpdate = () => {
+  public UNSAFE_componentWillUpdate = () => {
     // Keep a reference to input names before form updates,
     // to check if inputs has changed after render
     this.prevInputNames = this.inputs.map(component => component.props.name);

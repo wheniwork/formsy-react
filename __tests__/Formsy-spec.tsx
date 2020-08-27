@@ -71,7 +71,7 @@ describe('Setting up a form', () => {
     let forceUpdate = null;
     let model = null;
     class TestForm extends React.Component {
-      componentWillMount() {
+      UNSAFE_componentWillMount() {
         forceUpdate = this.forceUpdate.bind(this);
       }
       render() {
@@ -99,7 +99,7 @@ describe('Setting up a form', () => {
     let forceUpdate = null;
     let model = null;
     class TestForm extends React.Component {
-      componentWillMount() {
+      UNSAFE_componentWillMount() {
         forceUpdate = this.forceUpdate.bind(this);
       }
       render() {
@@ -130,7 +130,7 @@ describe('Setting up a form', () => {
     let model = null;
 
     class TestForm extends React.Component {
-      componentWillMount() {
+      UNSAFE_componentWillMount() {
         forceUpdate = this.forceUpdate.bind(this);
       }
       render() {

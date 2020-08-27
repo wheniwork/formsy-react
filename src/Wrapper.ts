@@ -160,7 +160,7 @@ export default function<Props, State, CompState>(
     }
 
     // We have to make sure the validate method is kept when new props are added
-    public componentWillReceiveProps(nextProps) {
+    public UNSAFE_componentWillReceiveProps(nextProps) {
       this.setValidations(nextProps.validations, nextProps.required);
     }
 

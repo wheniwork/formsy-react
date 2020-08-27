@@ -87,7 +87,7 @@ describe('Element', () => {
   it('should return true or false when calling isValid() depending on valid state', () => {
     let isValid = null;
     const Input = InputFactory({
-      componentWillReceiveProps: function(nextProps) {
+      UNSAFE_componentWillReceiveProps: function(nextProps) {
         isValid = nextProps.isValid;
       },
     });
