@@ -141,7 +141,7 @@ export default function<Props, State, CompState>(
       };
     }
 
-    public componentWillMount() {
+    public UNSAFE_componentWillMount() {
       const { validations, required, name } = this.props;
       const { formsy } = this.context;
 

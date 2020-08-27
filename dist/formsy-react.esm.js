@@ -1741,8 +1741,8 @@ function Wrapper (WrappedComponent) {
     }
 
     _createClass(_class, [{
-      key: "componentWillMount",
-      value: function componentWillMount() {
+      key: "UNSAFE_componentWillMount",
+      value: function UNSAFE_componentWillMount() {
         var _this2 = this;
 
         var _this$props = this.props,
@@ -1929,6 +1929,32 @@ function (_React$Component) {
 
     _this.getCurrentValues = function () {
       getValuesCounter++;
+      var result = {};
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = _this.inputs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var input = _step.value;
+          result[input.props.name] = input.state.value;
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
+      return result;
       return _this.inputs.reduce(function (data, component) {
         var dataCopy = _typeof(component.state.value) === 'object' ? Object.assign({}, data) : data; // avoid param reassignment
 
