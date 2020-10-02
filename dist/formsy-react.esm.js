@@ -1617,9 +1617,7 @@ function getDisplayName(component) {
 function Wrapper (WrappedComponent) {
   var _class, _temp;
 
-  return _temp = _class =
-  /*#__PURE__*/
-  function (_React$Component) {
+  return _temp = _class = /*#__PURE__*/function (_React$Component) {
     _inherits(_class, _React$Component);
 
     function _class(props) {
@@ -1866,9 +1864,7 @@ function resetCounters() {
 }
 /* eslint-disable react/no-unused-state, react/default-props-match-prop-types */
 
-var Formsy =
-/*#__PURE__*/
-function (_React$Component) {
+var Formsy = /*#__PURE__*/function (_React$Component) {
   _inherits(Formsy, _React$Component);
 
   function Formsy(props) {

@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import validationRules from './validationRules';
 import Wrapper, { propTypes } from './Wrapper';
-import { IModel, InputComponent, IResetModel, IUpdateInputsWithError, ValidationFunction } from './interfaces';
+import type { PassDownProps } from './Wrapper';
+import { IData, IModel, InputComponent, IResetModel, IUpdateInputsWithError, ValidationFunction } from './interfaces';
 declare type FormHTMLAttributesCleaned = Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit'>;
 export declare let formValidateCounter: number;
 export declare let componentValidateCounter: number;
 export declare let getValuesCounter: number;
 export declare function resetCounters(): void;
-export interface FormsyProps extends FormHTMLAttributesCleaned {
+interface FormsyProps extends FormHTMLAttributesCleaned {
     disabled: boolean;
     getErrorMessage: any;
     getErrorMessages: any;
@@ -102,8 +103,8 @@ declare class Formsy extends React.Component<FormsyProps, FormsyState> {
     setInputValidationErrors: (errors: any) => void;
     setFormValidState: (allIsValid: boolean) => void;
     isFormDisabled: () => boolean;
-    mapModel: (model: any) => any;
-    reset: (data?: any) => void;
+    mapModel: (model: IModel) => any;
+    reset: (data?: IData) => void;
     resetInternal: (event: any) => void;
     resetModel: IResetModel;
     runValidation: (component: InputComponent, value?: any, currentValues?: any) => {
@@ -175,7 +176,7 @@ declare class Formsy extends React.Component<FormsyProps, FormsyState> {
         unselectable?: "on" | "off";
         'aria-activedescendant'?: string;
         'aria-atomic'?: boolean | "false" | "true";
-        'aria-autocomplete'?: "none" | "both" | "inline" | "list";
+        'aria-autocomplete'?: "both" | "none" | "inline" | "list";
         'aria-busy'?: boolean | "false" | "true";
         'aria-checked'?: boolean | "mixed" | "false" | "true";
         'aria-colcount'?: number;
@@ -216,7 +217,7 @@ declare class Formsy extends React.Component<FormsyProps, FormsyState> {
         'aria-rowspan'?: number;
         'aria-selected'?: boolean | "false" | "true";
         'aria-setsize'?: number;
-        'aria-sort'?: "none" | "ascending" | "descending" | "other";
+        'aria-sort'?: "none" | "other" | "ascending" | "descending";
         'aria-valuemax'?: number;
         'aria-valuemin'?: number;
         'aria-valuenow'?: number;
@@ -385,4 +386,5 @@ declare class Formsy extends React.Component<FormsyProps, FormsyState> {
 }
 declare const addValidationRule: (name: string, func: ValidationFunction) => void;
 export { addValidationRule, propTypes, validationRules, Wrapper as withFormsy };
+export type { PassDownProps as FormsyInjectedProps };
 export default Formsy;

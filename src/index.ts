@@ -4,7 +4,8 @@ import formDataToObject from 'form-data-to-object';
 
 import utils from './utils';
 import validationRules from './validationRules';
-import Wrapper, { propTypes, PassDownProps } from './Wrapper';
+import Wrapper, { propTypes } from './Wrapper';
+import type { PassDownProps } from './Wrapper';
 
 import { IData, IModel, InputComponent, IResetModel, IUpdateInputsWithError, ValidationFunction } from './interfaces';
 
@@ -555,6 +556,6 @@ const addValidationRule = (name: string, func: ValidationFunction) => {
 };
 
 export { addValidationRule, propTypes, validationRules, Wrapper as withFormsy };
-export { PassDownProps as FormsyInjectedProps };
+export type { PassDownProps as FormsyInjectedProps };
 
 export default Formsy;

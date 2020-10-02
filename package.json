@@ -15,11 +15,6 @@
       "tag": true
     }
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "jest": {
     "transform": {
       "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
@@ -103,7 +98,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "sinon": "^7.3.2",
-    "typescript": "^3.5.3"
+    "typescript": "^3.8.3"
   },
   "peerDependencies": {
     "react": "^16.9.0",
