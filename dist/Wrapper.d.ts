@@ -11,11 +11,11 @@ declare const propTypes: {
 export interface WrapperProps {
     innerRef?: (ref: any) => void;
     name: string;
-    required: RequiredValidation;
-    validationError: any;
-    validationErrors: any;
-    validations: Validations | string;
-    value: any;
+    required?: RequiredValidation;
+    validationError?: any;
+    validationErrors?: any;
+    validations?: Validations | string;
+    value?: any;
 }
 export interface WrapperState {
     [key: string]: unknown;
@@ -28,7 +28,7 @@ export interface WrapperState {
     validationError: any[];
     value: any;
 }
-export interface PassDownProps {
+export interface InjectedProps {
     errorMessage: any;
     errorMessages: any;
     hasValue: boolean;
@@ -38,16 +38,13 @@ export interface PassDownProps {
     isRequired: boolean;
     isValid: boolean;
     isValidValue: (value: Value) => boolean;
-    name: string;
     ref?: any;
     resetValue: any;
     setValidations: any;
-    setValue: (value: Value) => void;
+    setValue: (value: Value, validate?: boolean) => void;
     showError: boolean;
     showRequired: boolean;
-    validationError: any;
-    validationErrors: any;
-    value: Value;
 }
+export declare type PassDownProps = WrapperProps & InjectedProps;
 export { propTypes };
-export default function <Props, State, CompState>(WrappedComponent: React.ComponentClass<Props & State>): React.ComponentClass<Props & State>;
+export default function <Props>(WrappedComponent: React.ComponentType<Props>): React.ComponentType<Omit<Props, keyof InjectedProps> & WrapperProps & Partial<InjectedProps>>;

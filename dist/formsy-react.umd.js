@@ -1624,14 +1624,14 @@
     var _class, _temp;
 
     return _temp = _class = /*#__PURE__*/function (_React$Component) {
-      _inherits(_class, _React$Component);
+      _inherits(WithFormsyWrapper, _React$Component);
 
-      function _class(props) {
+      function WithFormsyWrapper(props) {
         var _this;
 
-        _classCallCheck(this, _class);
+        _classCallCheck(this, WithFormsyWrapper);
 
-        _this = _possibleConstructorReturn(this, _getPrototypeOf(_class).call(this, props));
+        _this = _possibleConstructorReturn(this, _getPrototypeOf(WithFormsyWrapper).call(this, props));
         _this.validations = void 0;
         _this.requiredValidations = void 0;
 
@@ -1744,7 +1744,7 @@
         return _this;
       }
 
-      _createClass(_class, [{
+      _createClass(WithFormsyWrapper, [{
         key: "UNSAFE_componentWillMount",
         value: function UNSAFE_componentWillMount() {
           var _this2 = this;
@@ -1846,7 +1846,7 @@
         }
       }]);
 
-      return _class;
+      return WithFormsyWrapper;
     }(React.Component), _class.displayName = "Formsy(".concat(getDisplayName(WrappedComponent), ")"), _class.contextTypes = {
       formsy: propTypes.object // What about required?
 
